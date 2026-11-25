@@ -1,0 +1,187 @@
+<?php
+    include 'db.php';
+
+    if($_SERVER['REQUEST_METHOD']==='POST'){
+
+        $bname = $_POST['bname'];
+        $author = $_POST['author'];
+        $bquant = $_POST['bquant'];
+        $bprice = $_POST['bprice'];
+        $bcat = $_POST['bcat'];
+
+        if(empty($bname) || empty($author) || empty($bquant) || empty($bprice) || empty($bcat)){
+            echo "<script>alert('Please fill all the details.')</script>";
+        }
+        else{
+            $sql = $conn -> prepare('insert into books(book_title, author, category, price, quantity) values(?,?,?,?,?)');
+            $sql -> bind_param('sssdi', $bname, $author, $bcat, $bprice, $bquant);
+            if($sql -> execute()){
+                echo "Data inserted";
+                header('location:dashboard.php');
+            }
+            else{
+                echo "<script>alert('Could not insert. Please try again.')</script>";
+            }
+        }
+    }
+?>
+
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <title>Insert</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Bootstrap CSS v5.3.8 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+            crossorigin="anonymous"
+        />
+    </head>
+
+    <body>
+        <header>
+            <nav
+                class="navbar navbar-expand-sm navbar-light bg-light"
+            >
+                <div class="container">
+                    <a class="navbar-brand" href="#">Hi, <?php echo $_SESSION['uname']; ?></a>
+                    <button
+                        class="navbar-toggler d-lg-none"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapsibleNavId"
+                        aria-controls="collapsibleNavId"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavId">
+                        <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                            <li class="nav-item dropdown">
+                                <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="dropdownId"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    >Actions</a
+                                >
+                                <div
+                                    class="dropdown-menu"
+                                    aria-labelledby="dropdownId"
+                                >
+                                    <a class="dropdown-item" href="insert.php"
+                                        >Add a new book</a
+                                    >
+                                    <a class="dropdown-item" href="update.php"
+                                        >Update a book</a
+                                    >
+                                    <a class="dropdown-item" href="delete.php"
+                                        >Remove a book</a
+                                    >
+                                    
+                                </div>
+                            </li>
+                        </ul>
+                        <form class="d-flex my-2 my-lg-0" action="logout.php">
+                            <button
+                                class="btn btn-outline-success my-2 my-sm-0"
+                                type="submit"
+                            >
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+            
+        </header>
+        <main>
+            
+                <div class="container my-5 py-4 col-5 border rounded shadow">    
+                <h1 class="text-center">Add a new Book</h1>
+                <form action="" method="post">
+                <div class="mb-3">
+                    <label for="" class="form-label">Book Title</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="bname"
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder=""
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">Author</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="author"
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder=""
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">Quantity</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="bquant"
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder=""
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">Price</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="bprice"
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder=""
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">Category</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="bcat"
+                        id=""
+                        aria-describedby="helpId"
+                        placeholder=""
+                    />
+                </div>
+                <center><button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Insert
+                </button></center>
+                
+            </form>
+            </div>
+            
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- Bootstrap JavaScript Bundle (includes Popper) -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
